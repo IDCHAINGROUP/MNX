@@ -1,0 +1,8 @@
+/usr/bin/nodetrade-cli		--	gen_context(system_u:object_r:nodetrade_exec_t,s0)
+/usr/sbin/nodetraded		--	gen_context(system_u:object_r:nodetrade_exec_t,s0)
+/usr/lib(64)?/nodetrade/nodetraded		--	gen_context(system_u:object_r:nodetrade_exec_t,s0)
+
+/etc/nodetrade(/.*)?		gen_context(system_u:object_r:nodetrade_conf_t,s0)
+/var/lib/nodetrade(/.*)?		gen_context(system_u:object_r:nodetrade_var_lib_t,s0)
+
+(/var)?/run/nodetraded(/.*)?   gen_context(system_u:object_r:nodetrade_var_run_t,s0)

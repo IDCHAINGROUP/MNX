@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=NODETRADE
+Comment=NODETRADE P2P Cryptocurrency
+Comment[fr]=NODETRADE, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=NODETRADE, eşten eşe kriptografik sanal para birimi
+Exec=nodetrade-qt %u
+Terminal=false
+Type=Application
+Icon=nodetrade128
+MimeType=x-scheme-handler/nodetrade;
+Categories=Office;Finance;
+StartupWMClass=Nodetrade-qt

@@ -1,0 +1,747 @@
+# Copyright (c) 2013-2016 The Bitcoin Core developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+bin_PROGRAMS += qt/nodetrade-qt
+EXTRA_LIBRARIES += qt/libbitcoinqt.a
+
+# nodetrade qt core #
+include Makefile.qt_locale.include
+
+QT_FORMS_UI = \
+  qt/forms/addressbookpage.ui \
+  qt/forms/askpassphrasedialog.ui \
+  qt/forms/coincontroldialog.ui \
+  qt/forms/editaddressdialog.ui \
+  qt/forms/helpmessagedialog.ui \
+  qt/forms/intro.ui \
+  qt/forms/openuridialog.ui \
+  qt/forms/rpcconsole.ui \
+  qt/nodetrade/forms/loadingdialog.ui \
+  qt/nodetrade/forms/snackbar.ui \
+  qt/nodetrade/forms/navmenuwidget.ui \
+  qt/nodetrade/forms/lockunlock.ui \
+  qt/nodetrade/forms/expandablebutton.ui \
+  qt/nodetrade/forms/receivedialog.ui \
+  qt/nodetrade/forms/balancebubble.ui \
+  qt/nodetrade/forms/topbar.ui \
+  qt/nodetrade/forms/txrow.ui \
+  qt/nodetrade/forms/dashboardwidget.ui \
+  qt/nodetrade/forms/addresslabelrow.ui \
+  qt/nodetrade/forms/contactdropdownrow.ui \
+  qt/nodetrade/forms/mninfodialog.ui \
+  qt/nodetrade/forms/optionbutton.ui \
+  qt/nodetrade/forms/masternodewizarddialog.ui \
+  qt/nodetrade/forms/mnrow.ui \
+  qt/nodetrade/forms/masternodeswidget.ui \
+  qt/nodetrade/forms/myaddressrow.ui \
+  qt/nodetrade/forms/csrow.ui \
+  qt/nodetrade/forms/sendmemodialog.ui \
+  qt/nodetrade/forms/sendchangeaddressdialog.ui \
+  qt/nodetrade/forms/sendconfirmdialog.ui \
+  qt/nodetrade/forms/sendcustomfeedialog.ui \
+  qt/nodetrade/forms/sendmultirow.ui \
+  qt/nodetrade/forms/send.ui \
+  qt/nodetrade/forms/addnewaddressdialog.ui \
+  qt/nodetrade/forms/addnewcontactdialog.ui \
+  qt/nodetrade/forms/requestdialog.ui \
+  qt/nodetrade/forms/receivewidget.ui \
+  qt/nodetrade/forms/tooltipmenu.ui \
+  qt/nodetrade/forms/addresseswidget.ui \
+  qt/nodetrade/forms/defaultdialog.ui \
+  qt/nodetrade/forms/coldstakingwidget.ui \
+  qt/nodetrade/forms/proposalcard.ui \
+  qt/nodetrade/forms/mnselectiondialog.ui \
+  qt/nodetrade/forms/votedialog.ui \
+  qt/nodetrade/forms/createproposaldialog.ui \
+  qt/nodetrade/forms/proposalinfodialog.ui \
+  qt/nodetrade/forms/governancewidget.ui \
+  qt/nodetrade/settings/forms/settingsbackupwallet.ui \
+  qt/nodetrade/settings/forms/settingsexportcsv.ui \
+  qt/nodetrade/settings/forms/settingsbittoolwidget.ui \
+  qt/nodetrade/settings/forms/settingsconsolewidget.ui \
+  qt/nodetrade/settings/forms/settingsdisplayoptionswidget.ui \
+  qt/nodetrade/settings/forms/settingsfaqwidget.ui \
+  qt/nodetrade/settings/forms/settingsinformationwidget.ui \
+  qt/nodetrade/settings/forms/settingsmainoptionswidget.ui \
+  qt/nodetrade/settings/forms/settingssignmessagewidgets.ui \
+  qt/nodetrade/settings/forms/settingswalletoptionswidget.ui \
+  qt/nodetrade/settings/forms/settingswalletrepairwidget.ui \
+  qt/nodetrade/settings/forms/settingswidget.ui \
+  qt/nodetrade/forms/welcomecontentwidget.ui \
+  qt/nodetrade/forms/splash.ui
+
+QT_MOC_CPP = \
+  qt/moc_addressbookpage.cpp \
+  qt/moc_addresstablemodel.cpp \
+  qt/moc_askpassphrasedialog.cpp \
+  qt/moc_bantablemodel.cpp \
+  qt/moc_bitcoinaddressvalidator.cpp \
+  qt/nodetrade/moc_nodetradegui.cpp \
+  qt/moc_bitcoinunits.cpp \
+  qt/moc_clientmodel.cpp \
+  qt/moc_coincontroldialog.cpp \
+  qt/moc_coincontroltreewidget.cpp \
+  qt/moc_csvmodelwriter.cpp \
+  qt/moc_editaddressdialog.cpp \
+  qt/moc_guiutil.cpp \
+  qt/moc_intro.cpp \
+  qt/moc_macdockiconhandler.cpp \
+  qt/moc_macnotificationhandler.cpp \
+  qt/moc_notificator.cpp \
+  qt/moc_openuridialog.cpp \
+  qt/moc_optionsmodel.cpp \
+  qt/moc_peertablemodel.cpp \
+  qt/moc_paymentserver.cpp \
+  qt/moc_qvalidatedlineedit.cpp \
+  qt/moc_qvaluecombobox.cpp \
+  qt/moc_recentrequeststablemodel.cpp \
+  qt/moc_rpcconsole.cpp \
+  qt/moc_rpcexecutor.cpp \
+  qt/moc_trafficgraphwidget.cpp \
+  qt/moc_transactionfilterproxy.cpp \
+  qt/moc_transactiontablemodel.cpp \
+  qt/moc_utilitydialog.cpp \
+  qt/moc_walletmodel.cpp \
+  qt/nodetrade/moc_loadingdialog.cpp \
+  qt/nodetrade/moc_pwidget.cpp \
+  qt/nodetrade/moc_focuseddialog.cpp \
+  qt/nodetrade/moc_snackbar.cpp \
+  qt/nodetrade/moc_navmenuwidget.cpp \
+  qt/nodetrade/moc_lockunlock.cpp \
+  qt/nodetrade/moc_expandablebutton.cpp \
+  qt/nodetrade/moc_furabstractlistitemdelegate.cpp \
+  qt/nodetrade/moc_receivedialog.cpp \
+  qt/nodetrade/moc_pfborderimage.cpp \
+  qt/nodetrade/moc_topbar.cpp \
+  qt/nodetrade/moc_txrow.cpp \
+  qt/nodetrade/moc_dashboardwidget.cpp \
+  qt/nodetrade/moc_addresslabelrow.cpp \
+  qt/nodetrade/moc_contactdropdownrow.cpp \
+  qt/nodetrade/moc_mninfodialog.cpp \
+  qt/nodetrade/moc_optionbutton.cpp \
+  qt/nodetrade/moc_coldstakingmodel.cpp \
+  qt/nodetrade/moc_mnmodel.cpp \
+  qt/nodetrade/moc_masternodewizarddialog.cpp \
+  qt/nodetrade/moc_mnrow.cpp \
+  qt/nodetrade/moc_masternodeswidget.cpp \
+  qt/nodetrade/moc_myaddressrow.cpp \
+  qt/nodetrade/moc_csrow.cpp \
+  qt/nodetrade/moc_contactsdropdown.cpp \
+  qt/nodetrade/moc_sendchangeaddressdialog.cpp \
+  qt/nodetrade/moc_sendconfirmdialog.cpp \
+  qt/nodetrade/moc_sendcustomfeedialog.cpp \
+  qt/nodetrade/moc_sendmemodialog.cpp \
+  qt/nodetrade/moc_sendmultirow.cpp \
+  qt/nodetrade/moc_send.cpp \
+  qt/nodetrade/moc_addnewaddressdialog.cpp \
+  qt/nodetrade/moc_addnewcontactdialog.cpp \
+  qt/nodetrade/moc_requestdialog.cpp \
+  qt/nodetrade/moc_receivewidget.cpp \
+  qt/nodetrade/moc_tooltipmenu.cpp \
+  qt/nodetrade/moc_addresseswidget.cpp \
+  qt/nodetrade/moc_defaultdialog.cpp \
+  qt/nodetrade/moc_coldstakingwidget.cpp \
+  qt/nodetrade/moc_proposalcard.cpp \
+  qt/nodetrade/moc_mnselectiondialog.cpp \
+  qt/nodetrade/moc_votedialog.cpp \
+  qt/nodetrade/moc_createproposaldialog.cpp \
+  qt/nodetrade/moc_proposalinfodialog.cpp \
+  qt/nodetrade/moc_governancewidget.cpp \
+  qt/nodetrade/settings/moc_settingsbackupwallet.cpp \
+  qt/nodetrade/settings/moc_settingsexportcsv.cpp \
+  qt/nodetrade/settings/moc_settingsbittoolwidget.cpp \
+  qt/nodetrade/settings/moc_settingsconsolewidget.cpp \
+  qt/nodetrade/settings/moc_settingsdisplayoptionswidget.cpp \
+  qt/nodetrade/settings/moc_settingsfaqwidget.cpp \
+  qt/nodetrade/settings/moc_settingsinformationwidget.cpp \
+  qt/nodetrade/settings/moc_settingsmainoptionswidget.cpp \
+  qt/nodetrade/settings/moc_settingssignmessagewidgets.cpp \
+  qt/nodetrade/settings/moc_settingswalletoptionswidget.cpp \
+  qt/nodetrade/settings/moc_settingswalletrepairwidget.cpp \
+  qt/nodetrade/settings/moc_settingswidget.cpp \
+  qt/nodetrade/moc_welcomecontentwidget.cpp \
+  qt/nodetrade/moc_splash.cpp
+
+BITCOIN_MM = \
+  qt/macdockiconhandler.mm \
+  qt/macnotificationhandler.mm
+
+QT_MOC = \
+  qt/nodetrade.moc \
+  qt/intro.moc
+
+QT_QRC_CPP = qt/qrc_nodetrade.cpp
+QT_QRC = qt/nodetrade.qrc
+QT_QRC_LOCALE_CPP = qt/qrc_nodetrade_locale.cpp
+QT_QRC_LOCALE = qt/nodetrade_locale.qrc
+
+BITCOIN_QT_H = \
+  qt/addressbookpage.h \
+  qt/addresstablemodel.h \
+  qt/askpassphrasedialog.h \
+  qt/bantablemodel.h \
+  qt/bitcoinaddressvalidator.h \
+  qt/nodetrade/nodetradegui.h \
+  qt/bitcoinunits.h \
+  qt/clientmodel.h \
+  qt/coincontroldialog.h \
+  qt/coincontroltreewidget.h \
+  qt/csvmodelwriter.h \
+  qt/editaddressdialog.h \
+  qt/guiconstants.h \
+  qt/guiutil.h \
+  qt/intro.h \
+  qt/macdockiconhandler.h \
+  qt/macnotificationhandler.h \
+  qt/networkstyle.h \
+  qt/notificator.h \
+  qt/openuridialog.h \
+  qt/optionsmodel.h \
+  qt/paymentserver.h \
+  qt/peertablemodel.h \
+  qt/platformstyle.h \
+  qt/qvalidatedlineedit.h \
+  qt/qvaluecombobox.h \
+  qt/recentrequeststablemodel.h \
+  qt/rpcconsole.h \
+  qt/rpcexecutor.h \
+  qt/trafficgraphwidget.h \
+  qt/transactionfilterproxy.h \
+  qt/transactionrecord.h \
+  qt/transactiontablemodel.h \
+  qt/utilitydialog.h \
+  qt/walletmodel.h \
+  qt/walletmodeltransaction.h \
+  qt/nodetrade/prunnable.h \
+  qt/nodetrade/pfborderimage.h \
+  qt/nodetrade/loadingdialog.h \
+  qt/winshutdownmonitor.h \
+  qt/nodetrade/pwidget.h \
+  qt/nodetrade/focuseddialog.h \
+  qt/nodetrade/guitransactionsutils.h \
+  qt/nodetrade/snackbar.h \
+  qt/nodetrade/navmenuwidget.h \
+  qt/nodetrade/lockunlock.h \
+  qt/nodetrade/receivedialog.h \
+  qt/nodetrade/furlistrow.h \
+  qt/nodetrade/furabstractlistitemdelegate.h \
+  qt/nodetrade/txviewholder.h \
+  qt/nodetrade/qtutils.h \
+  qt/nodetrade/expandablebutton.h \
+  qt/nodetrade/balancebubble.h \
+  qt/nodetrade/topbar.h \
+  qt/nodetrade/txrow.h \
+  qt/nodetrade/addressholder.h \
+  qt/nodetrade/addressfilterproxymodel.h \
+  qt/nodetrade/dashboardwidget.h \
+  qt/nodetrade/addresslabelrow.h \
+  qt/nodetrade/contactdropdownrow.h \
+  qt/nodetrade/mninfodialog.h \
+  qt/nodetrade/optionbutton.h \
+  qt/nodetrade/coldstakingmodel.h \
+  qt/nodetrade/mnmodel.h \
+  qt/nodetrade/masternodewizarddialog.h \
+  qt/nodetrade/mnrow.h \
+  qt/nodetrade/masternodeswidget.h \
+  qt/nodetrade/myaddressrow.h \
+  qt/nodetrade/csrow.h \
+  qt/nodetrade/contactsdropdown.h \
+  qt/nodetrade/sendchangeaddressdialog.h \
+  qt/nodetrade/sendconfirmdialog.h \
+  qt/nodetrade/sendcustomfeedialog.h \
+  qt/nodetrade/sendmemodialog.h \
+  qt/nodetrade/sendmultirow.h \
+  qt/nodetrade/send.h \
+  qt/nodetrade/addnewaddressdialog.h \
+  qt/nodetrade/addnewcontactdialog.h \
+  qt/nodetrade/requestdialog.h \
+  qt/nodetrade/receivewidget.h \
+  qt/nodetrade/tooltipmenu.h \
+  qt/nodetrade/addresseswidget.h \
+  qt/nodetrade/defaultdialog.h \
+  qt/nodetrade/coldstakingwidget.h \
+  qt/nodetrade/governancemodel.h \
+  qt/nodetrade/proposalcard.h \
+  qt/nodetrade/mnselectiondialog.h \
+  qt/nodetrade/votedialog.h \
+  qt/nodetrade/createproposaldialog.h \
+  qt/nodetrade/proposalinfodialog.h \
+  qt/nodetrade/governancewidget.h \
+  qt/nodetrade/settings/settingsbackupwallet.h \
+  qt/nodetrade/settings/settingsexportcsv.h \
+  qt/nodetrade/settings/settingsbittoolwidget.h \
+  qt/nodetrade/settings/settingsconsolewidget.h \
+  qt/nodetrade/settings/settingsdisplayoptionswidget.h \
+  qt/nodetrade/settings/settingsfaqwidget.h \
+  qt/nodetrade/settings/settingsinformationwidget.h \
+  qt/nodetrade/settings/settingsmainoptionswidget.h \
+  qt/nodetrade/settings/settingssignmessagewidgets.h \
+  qt/nodetrade/settings/settingswalletoptionswidget.h \
+  qt/nodetrade/settings/settingswalletrepairwidget.h \
+  qt/nodetrade/settings/settingswidget.h \
+  qt/nodetrade/welcomecontentwidget.h \
+  qt/nodetrade/splash.h
+
+RES_ICONS = \
+  qt/res/icons/bitcoin.ico \
+  qt/res/icons/bitcoin.png \
+  qt/res/icons/bitcoin_testnet.ico \
+  qt/res/icons/bitcoin_testnet.png \
+  qt/res/icons/bitcoin_regtest.png \
+  qt/res/icons/lock_closed.png \
+  qt/res/icons/lock_open.png \
+  qt/res/icons/overview.png \
+  qt/res/icons/ic-transaction-received.png \
+  qt/res/icons/ic-transaction-mint.png \
+  qt/res/icons/ic-transaction-sent.png \
+  qt/res/icons/ic-transaction-staked.png \
+  qt/nodetrade/res/img/bg-dashboard-banner.png \
+  qt/nodetrade/res/img/bg-multi-number-dark.png \
+  qt/nodetrade/res/img/ic-check-locked.png \
+  qt/nodetrade/res/img/ic-nav-address.png \
+  qt/nodetrade/res/img/ic-update.png \
+  qt/nodetrade/res/img/bg-multi-number.png \
+  qt/nodetrade/res/img/ic-check-mint-off.png \
+  qt/nodetrade/res/img/ic-nav-cold-staking.png \
+  qt/nodetrade/res/img/ic-nav-cold-staking-active.png \
+  qt/nodetrade/res/img/ic-nav-dashboard-active.png \
+  qt/nodetrade/res/img/ic-wallet-status-locked.png \
+  qt/nodetrade/res/img/bg-splash.png \
+  qt/nodetrade/res/img/bg-splash.png \
+  qt/nodetrade/res/img/ic-check-mint.png \
+  qt/nodetrade/res/img/ic-nav-dashboard-hover.png \
+  qt/nodetrade/res/img/ic-wallet-status-staking.png \
+  qt/nodetrade/res/img/ic-check-peers-off.png \
+  qt/nodetrade/res/img/ic-nav-dashboard.png \
+  qt/nodetrade/res/img/ic-wallet-status-unlocked.png \
+  qt/nodetrade/res/img/ic-check-peers.png \
+  qt/nodetrade/res/img/ic-nav-master-active.png \
+  qt/nodetrade/res/img/ic-watch-password-white.png \
+  qt/nodetrade/res/img/bg-welcome-container.jpg \
+  qt/nodetrade/res/img/bg-welcome-container.png \
+  qt/nodetrade/res/img/bg-welcome-container.png \
+  qt/nodetrade/res/img/bg-welcome-container@2x.png \
+  qt/nodetrade/res/img/bg-welcome-container@3x.png \
+  qt/nodetrade/res/img/ic-check-staking-off.png \
+  qt/nodetrade/res/img/ic-nav-master-hover.png \
+  qt/nodetrade/res/img/ic-watch-password.png \
+  qt/nodetrade/res/img/bg-welcome.jpg \
+  qt/nodetrade/res/img/bg-welcome.png \
+  qt/nodetrade/res/img/bg-welcome@2x.jpg \
+  qt/nodetrade/res/img/bg-welcome@3x.jpg \
+  qt/nodetrade/res/img/bg-welcome.png \
+  qt/nodetrade/res/img/ic-check-staking.png \
+  qt/nodetrade/res/img/ic-check-top-masternode.png \
+  qt/nodetrade/res/img/ic-check-top-config.png \
+  qt/nodetrade/res/img/ic-nav-master.png \
+  qt/nodetrade/res/img/img-dashboard-banner.jpg \
+  qt/nodetrade/res/img/btn-radio-active.png \
+  qt/nodetrade/res/img/ic-check-sync-off.png \
+  qt/nodetrade/res/img/ic-nav-privacy-active.png \
+  qt/nodetrade/res/img/img-empty-contacts.png \
+  qt/nodetrade/res/img/btn-radio-off.png \
+  qt/nodetrade/res/img/ic-check-sync.png \
+  qt/nodetrade/res/img/ic-nav-privacy-hover.png \
+  qt/nodetrade/res/img/img-empty-dark-contacts.png \
+  qt/nodetrade/res/img/ic-contact-arrow-down.png \
+  qt/nodetrade/res/img/ic-contact-arrow-down-white.png \
+  qt/nodetrade/res/img/ic-check-sync.png \
+  qt/nodetrade/res/img/ic-check-faq.png \
+  qt/nodetrade/res/img/ic-nav-privacy.png \
+  qt/nodetrade/res/img/img-empty-dark-error.png \
+  qt/nodetrade/res/img/ic-add-label.png \
+  qt/nodetrade/res/img/ic-pending.png \
+  qt/nodetrade/res/img/ic-check-theme-dark.png \
+  qt/nodetrade/res/img/ic-nav-receive-active.png \
+  qt/nodetrade/res/img/img-empty-dark-masternode.png \
+  qt/nodetrade/res/img/ic-add-liliac.png \
+  qt/nodetrade/res/img/ic-check-theme-light.png \
+  qt/nodetrade/res/img/ic-nav-receive-hover.png \
+  qt/nodetrade/res/img/img-empty-dark-multisend.png \
+  qt/nodetrade/res/img/ic-add-purple.png \
+  qt/nodetrade/res/img/ic-check-white.png \
+  qt/nodetrade/res/img/ic-nav-receive.png \
+  qt/nodetrade/res/img/img-empty-dark-peers.png \
+  qt/nodetrade/res/img/ic-add.png \
+  qt/nodetrade/res/img/ic-check.png \
+  qt/nodetrade/res/img/ic-nav-send-active.png \
+  qt/nodetrade/res/img/img-empty-dark-staking-off.png \
+  qt/nodetrade/res/img/img-empty-dark-staking-on.png \
+  qt/nodetrade/res/img/ic-address-book-grey.png \
+  qt/nodetrade/res/img/ic-chevron-left.png \
+  qt/nodetrade/res/img/ic-nav-send-hover.png \
+  qt/nodetrade/res/img/img-empty-dark-transactions.png \
+  qt/nodetrade/res/img/ic-address-book-white.png \
+  qt/nodetrade/res/img/ic-chevron-right.png \
+  qt/nodetrade/res/img/ic-chevron-right-liliac.png \
+  qt/nodetrade/res/img/ic-nav-send.png \
+  qt/nodetrade/res/img/img-empty-error.png \
+  qt/nodetrade/res/img/ic-address-book.png \
+  qt/nodetrade/res/img/ic-clear-liliac.png \
+  qt/nodetrade/res/img/ic-nav-settings-active.png \
+  qt/nodetrade/res/img/img-empty-masternode.png \
+  qt/nodetrade/res/img/ic-address-send-white.png \
+  qt/nodetrade/res/img/ic-clear-purple.png \
+  qt/nodetrade/res/img/ic-nav-settings-hover.png \
+  qt/nodetrade/res/img/img-empty-multisend.png \
+  qt/nodetrade/res/img/ic-address-send.png \
+  qt/nodetrade/res/img/ic-close-white.png \
+  qt/nodetrade/res/img/ic-nav-settings.png \
+  qt/nodetrade/res/img/img-empty-peers.png \
+  qt/nodetrade/res/img/img-empty-privacy.png \
+  qt/nodetrade/res/img/img-empty-privacy-dark.png \
+  qt/nodetrade/res/img/ic-arrow-drop-down-white.png \
+  qt/nodetrade/res/img/ic-close.png \
+  qt/nodetrade/res/img/ic-radio-liliac-on.png \
+  qt/nodetrade/res/img/img-empty-staking-off.png \
+  qt/nodetrade/res/img/ic-arrow-drop-down.png \
+  qt/nodetrade/res/img/ic-coin-mnx.png \
+  qt/nodetrade/res/img/ic-receive-off.png \
+  qt/nodetrade/res/img/img-empty-staking-on.png \
+  qt/nodetrade/res/img/ic-arrow-drop-up-white.png \
+  qt/nodetrade/res/img/ic-coin-zmnx.png \
+  qt/nodetrade/res/img/ic-receive-on.png \
+  qt/nodetrade/res/img/img-empty-transactions.png \
+  qt/nodetrade/res/img/ic-arrow-drop-up.png \
+  qt/nodetrade/res/img/ic-coin-zmnx.png \
+  qt/nodetrade/res/img/ic-received.png \
+  qt/nodetrade/res/img/img-logo-nodetrade.png \
+  qt/nodetrade/res/img/ic-arrow-drop-white-down.png \
+  qt/nodetrade/res/img/ic-combo-box.png \
+  qt/nodetrade/res/img/ic-send.png \
+  qt/nodetrade/res/img/img-logo-nodetrade@2x.png \
+  qt/nodetrade/res/img/ic-arrow-purple-down.png \
+  qt/nodetrade/res/img/ic-connect.png \
+  qt/nodetrade/res/img/ic-submenu-lock.png \
+  qt/nodetrade/res/img/img-logo-nodetrade@3x.png \
+  qt/nodetrade/res/img/img-logo-nodetrade.png \
+  qt/nodetrade/res/img/ic-arrow-right-white.png \
+  qt/nodetrade/res/img/ic-arrow-left-white.png \
+  qt/nodetrade/res/img/ic-arrow-left.png \
+  qt/nodetrade/res/img/ic-copy-liliac.png \
+  qt/nodetrade/res/img/ic-submenu-staking.png \
+  qt/nodetrade/res/img/img-nav-logo-nodetrade.png \
+  qt/nodetrade/res/img/ic-arrow-right.png \
+  qt/nodetrade/res/img/ic-copy.png \
+  qt/nodetrade/res/img/ic-copy-big.png \
+  qt/nodetrade/res/img/ic-copy-big-white.png \
+  qt/nodetrade/res/img/ic-submenu-unlock.png \
+  qt/nodetrade/res/img/img-nav-logo.png \
+  qt/nodetrade/res/img/ic-arrow-white-left.png \
+  qt/nodetrade/res/img/ic-exit.png \
+  qt/nodetrade/res/img/ic-switch-liliac-on.png \
+  qt/nodetrade/res/img/img-nav-logo.png \
+  qt/nodetrade/res/img/ic-arrow-white-right.png \
+  qt/nodetrade/res/img/ic-expand.png \
+  qt/nodetrade/res/img/ic-switch-off.png \
+  qt/nodetrade/res/img/img-qr-test-big.png \
+  qt/nodetrade/res/img/ic-check-active.png \
+  qt/nodetrade/res/img/ic-folder.png \
+  qt/nodetrade/res/img/ic-switch-on.png \
+  qt/nodetrade/res/img/img-qr-test.png \
+  qt/nodetrade/res/img/ic-check-box.png \
+  qt/nodetrade/res/img/ic-check-box-light.png \
+  qt/nodetrade/res/img/ic-check-box-dark-active.png \
+  qt/nodetrade/res/img/ic-check-box-indeterminate.png \
+  qt/nodetrade/res/img/ic-check-box-liliac-indeterminate.png \
+  qt/nodetrade/res/img/ic-label-liliac.png \
+  qt/nodetrade/res/img/ic-transaction-warning.png \
+  qt/nodetrade/res/img/ic-transaction-mint.png \
+  qt/nodetrade/res/img/ic-transaction-mint-inactive.png \
+  qt/nodetrade/res/img/ic-check-cold-staking.png \
+  qt/nodetrade/res/img/ic-check-cold-staking-off.png \
+  qt/nodetrade/res/img/ic-check-cold-staking-enabled.png \
+  qt/nodetrade/res/img/dark/ic-transaction-cs-contract.png \
+  qt/nodetrade/res/img/dark/ic-transaction-cs-contract-inactive.png \
+  qt/nodetrade/res/img/img-qr.png \
+  qt/nodetrade/res/img/ic-check-connect-off.png \
+  qt/nodetrade/res/img/ic-check-tor-off.png \
+  qt/nodetrade/res/img/ic-check-tor.png \
+  qt/nodetrade/res/img/ic-label.png \
+  qt/nodetrade/res/img/ic-transaction-received.png \
+  qt/nodetrade/res/img/dark/ic-transaction-received.png \
+  qt/nodetrade/res/img/dark/ic-transaction-warning.png \
+  qt/nodetrade/res/img/dark/ic-transaction-mint.png \
+  qt/nodetrade/res/img/dark/ic-transaction-mint-inactive.png \
+  qt/nodetrade/res/img/ic-transaction-received-inactive.png \
+  qt/nodetrade/res/img/dark/ic-transaction-received-inactive.png \
+  qt/nodetrade/res/img/img-welcome-step1.png \
+  qt/nodetrade/res/img/ic-check-connect.png \
+  qt/nodetrade/res/img/ic-menu-hover.png \
+  qt/nodetrade/res/img/ic-transaction-sent.png \
+  qt/nodetrade/res/img/ic-transaction-sent-inactive.png \
+  qt/nodetrade/res/img/dark/ic-transaction-sent.png \
+  qt/nodetrade/res/img/dark/ic-transaction-sent-inactive.png \
+  qt/nodetrade/res/img/img-welcome-step2.png \
+  qt/nodetrade/res/img/ic-check-dark.png \
+  qt/nodetrade/res/img/ic-mint.png \
+  qt/nodetrade/res/img/ic-transaction-staked.png \
+  qt/nodetrade/res/img/ic-transaction-staked-inactive.png \
+  qt/nodetrade/res/img/dark/ic-transaction-staked.png \
+  qt/nodetrade/res/img/dark/ic-transaction-staked-inactive.png \
+  qt/nodetrade/res/img/img-welcome-step3.png \
+  qt/nodetrade/res/img/ic-check-liliac-on.png \
+  qt/nodetrade/res/img/ic-nav-address-active.png \
+  qt/nodetrade/res/img/ic-unlock-staking.png \
+  qt/nodetrade/res/img/img-welcome-step4.png \
+  qt/nodetrade/res/img/ic-check-locked-off.png \
+  qt/nodetrade/res/img/ic-nav-address-hover.png \
+  qt/nodetrade/res/img/ic-update-liliac.png \
+  qt/nodetrade/res/img/ic-arrow-drop-down-purple.png \
+  qt/nodetrade/res/img/ic-arrow-drop-up-purple.png \
+  qt/nodetrade/res/img/ic-check-liliac-indeterminate.png \
+  qt/nodetrade/res/img/ic-check-box-liliac-indeterminate.png \
+  qt/nodetrade/res/img/ic-transaction-stake-delegated.png \
+  qt/nodetrade/res/img/ic-transaction-stake-delegated-inactive.png \
+  qt/nodetrade/res/img/ic-transaction-stake-hot.png \
+  qt/nodetrade/res/img/ic-transaction-stake-hot-inactive.png \
+  qt/nodetrade/res/img/dark/ic-transaction-stake-hot.png \
+  qt/nodetrade/res/img/dark/ic-transaction-stake-hot-inactive.png \
+  qt/nodetrade/res/img/dark/ic-transaction-stake-delegated.png \
+  qt/nodetrade/res/img/dark/ic-transaction-stake-delegated-inactive.png \
+  qt/nodetrade/res/img/ic-transaction-cs-contract.png \
+  qt/nodetrade/res/img/ic-transaction-cs-contract-inactive.png \
+  qt/nodetrade/res/img/ic-check-box-indeterminate.png \
+  qt/nodetrade/res/img/ic-information.png \
+  qt/nodetrade/res/img/ic-information-hover.png \
+  qt/nodetrade/res/img/ani-loading-dark.gif \
+  qt/nodetrade/res/img/ani-loading.gif \
+  qt/nodetrade/res/img/ic-check-vote.png \
+  qt/nodetrade/res/img/ic-check-vote-active.png \
+  qt/nodetrade/res/img/ic-check-vote-dark.png \
+  qt/nodetrade/res/img/ic-check-vote-active-dark.png \
+  qt/nodetrade/res/img/ic-check-block.png \
+  qt/nodetrade/res/img/ic-filter.png \
+  qt/nodetrade/res/img/ic-link.png \
+  qt/nodetrade/res/img/ic-nav-governance.png \
+  qt/nodetrade/res/img/ic-nav-governance-active.png \
+  qt/nodetrade/res/img/ic-nav-governance-hover.png \
+  qt/nodetrade/res/img/ic-time.png \
+  qt/nodetrade/res/img/ic-link-hover.png \
+  qt/nodetrade/res/img/img-empty-governance.png \
+  qt/nodetrade/res/img/img-empty-dark-governance.png
+
+BITCOIN_QT_BASE_CPP = \
+  qt/bantablemodel.cpp \
+  qt/bitcoinaddressvalidator.cpp \
+  qt/nodetrade/nodetradegui.cpp \
+  qt/bitcoinunits.cpp \
+  qt/clientmodel.cpp \
+  qt/csvmodelwriter.cpp \
+  qt/guiutil.cpp \
+  qt/intro.cpp \
+  qt/networkstyle.cpp \
+  qt/notificator.cpp \
+  qt/optionsmodel.cpp \
+  qt/peertablemodel.cpp \
+  qt/platformstyle.cpp \
+  qt/qvalidatedlineedit.cpp \
+  qt/qvaluecombobox.cpp \
+  qt/rpcconsole.cpp \
+  qt/rpcexecutor.cpp \
+  qt/trafficgraphwidget.cpp \
+  qt/utilitydialog.cpp
+
+BITCOIN_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
+
+BITCOIN_QT_WALLET_CPP = \
+  qt/addressbookpage.cpp \
+  qt/addresstablemodel.cpp \
+  qt/askpassphrasedialog.cpp \
+  qt/coincontroldialog.cpp \
+  qt/coincontroltreewidget.cpp \
+  qt/editaddressdialog.cpp \
+  qt/openuridialog.cpp \
+  qt/paymentserver.cpp \
+  qt/recentrequeststablemodel.cpp \
+  qt/transactionfilterproxy.cpp \
+  qt/transactionrecord.cpp \
+  qt/transactiontablemodel.cpp \
+  qt/walletmodel.cpp \
+  qt/walletmodeltransaction.cpp \
+  qt/nodetrade/loadingdialog.cpp \
+  qt/nodetrade/pwidget.cpp \
+  qt/nodetrade/focuseddialog.cpp \
+  qt/nodetrade/guitransactionsutils.cpp \
+  qt/nodetrade/snackbar.cpp \
+  qt/nodetrade/navmenuwidget.cpp \
+  qt/nodetrade/lockunlock.cpp \
+  qt/nodetrade/receivedialog.cpp \
+  qt/nodetrade/furabstractlistitemdelegate.cpp \
+  qt/nodetrade/txviewholder.cpp \
+  qt/nodetrade/qtutils.cpp \
+  qt/nodetrade/expandablebutton.cpp \
+  qt/nodetrade/balancebubble.cpp \
+  qt/nodetrade/topbar.cpp \
+  qt/nodetrade/txrow.cpp \
+  qt/nodetrade/addressholder.cpp \
+  qt/nodetrade/addressfilterproxymodel.cpp \
+  qt/nodetrade/dashboardwidget.cpp \
+  qt/nodetrade/addresslabelrow.cpp \
+  qt/nodetrade/contactdropdownrow.cpp \
+  qt/nodetrade/contactsdropdown.cpp \
+  qt/nodetrade/optionbutton.cpp \
+  qt/nodetrade/mninfodialog.cpp \
+  qt/nodetrade/coldstakingmodel.cpp \
+  qt/nodetrade/mnmodel.cpp \
+  qt/nodetrade/masternodewizarddialog.cpp \
+  qt/nodetrade/mnrow.cpp \
+  qt/nodetrade/masternodeswidget.cpp \
+  qt/nodetrade/myaddressrow.cpp \
+  qt/nodetrade/csrow.cpp \
+  qt/nodetrade/sendchangeaddressdialog.cpp \
+  qt/nodetrade/sendconfirmdialog.cpp \
+  qt/nodetrade/sendcustomfeedialog.cpp \
+  qt/nodetrade/sendmemodialog.cpp \
+  qt/nodetrade/sendmultirow.cpp \
+  qt/nodetrade/send.cpp \
+  qt/nodetrade/addnewaddressdialog.cpp \
+  qt/nodetrade/addnewcontactdialog.cpp \
+  qt/nodetrade/requestdialog.cpp \
+  qt/nodetrade/receivewidget.cpp \
+  qt/nodetrade/tooltipmenu.cpp \
+  qt/nodetrade/addresseswidget.cpp \
+  qt/nodetrade/defaultdialog.cpp \
+  qt/nodetrade/coldstakingwidget.cpp \
+  qt/nodetrade/governancemodel.cpp \
+  qt/nodetrade/proposalcard.cpp \
+  qt/nodetrade/mnselectiondialog.cpp \
+  qt/nodetrade/votedialog.cpp \
+  qt/nodetrade/createproposaldialog.cpp \
+  qt/nodetrade/proposalinfodialog.cpp \
+  qt/nodetrade/governancewidget.cpp \
+  qt/nodetrade/settings/settingsbackupwallet.cpp \
+  qt/nodetrade/settings/settingsexportcsv.cpp \
+  qt/nodetrade/settings/settingsbittoolwidget.cpp \
+  qt/nodetrade/settings/settingsconsolewidget.cpp \
+  qt/nodetrade/settings/settingsdisplayoptionswidget.cpp \
+  qt/nodetrade/settings/settingsfaqwidget.cpp \
+  qt/nodetrade/settings/settingsinformationwidget.cpp \
+  qt/nodetrade/settings/settingsmainoptionswidget.cpp \
+  qt/nodetrade/settings/settingssignmessagewidgets.cpp \
+  qt/nodetrade/settings/settingswalletoptionswidget.cpp \
+  qt/nodetrade/settings/settingswalletrepairwidget.cpp \
+  qt/nodetrade/settings/settingswidget.cpp \
+  qt/nodetrade/welcomecontentwidget.cpp \
+  qt/nodetrade/splash.cpp
+
+
+BITCOIN_QT_CPP = $(BITCOIN_QT_BASE_CPP)
+if TARGET_WINDOWS
+BITCOIN_QT_CPP += $(BITCOIN_QT_WINDOWS_CPP)
+endif
+if ENABLE_WALLET
+BITCOIN_QT_CPP += $(BITCOIN_QT_WALLET_CPP)
+endif
+
+RES_IMAGES = \
+  qt/res/images/about.png \
+  qt/res/images/splash.png \
+  qt/res/images/splash_testnet.png \
+  qt/res/images/splash_regtest.png
+
+RES_CSS = \
+  qt/res/css/default.css \
+  qt/nodetrade/res/css/style_dark.css \
+  qt/nodetrade/res/css/style_light.css
+
+BITCOIN_RC = qt/res/nodetrade-qt-res.rc
+
+BITCOIN_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
+  -I$(builddir)/qt/forms -DQT_NO_KEYWORDS
+
+qt_libbitcoinqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
+  $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(QR_CFLAGS) $(SVG_CFLAGS) $(CHARTS_CFLAGS)
+qt_libbitcoinqt_a_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+qt_libbitcoinqt_a_OBJCXXFLAGS = $(AM_OBJCXXFLAGS) $(QT_PIE_FLAGS)
+
+qt_libbitcoinqt_a_SOURCES = $(BITCOIN_QT_CPP) $(BITCOIN_QT_H) $(QT_FORMS_UI) \
+  $(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS)
+
+nodist_qt_libbitcoinqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(QT_QRC_CPP) $(QT_QRC_LOCALE_CPP)
+
+# forms/foo.h -> forms/ui_foo.h
+QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:.ui=.h))))
+
+# Most files will depend on the forms and moc files as includes. Generate them
+# before anything else.
+$(QT_MOC): $(QT_FORMS_H)
+$(qt_libbitcoinqt_a_OBJECTS) $(qt_nodetrade_qt_OBJECTS) : | $(QT_MOC)
+
+# nodetrade-qt binary #
+qt_nodetrade_qt_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
+  $(QT_INCLUDES) $(QR_CFLAGS) $(SVG_CFLAGS) $(CHARTS_CFLAGS)
+qt_nodetrade_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+
+qt_nodetrade_qt_SOURCES = qt/nodetrade.cpp
+if TARGET_DARWIN
+  qt_nodetrade_qt_SOURCES += $(BITCOIN_MM)
+endif
+if TARGET_WINDOWS
+  qt_nodetrade_qt_SOURCES += $(BITCOIN_RC)
+endif
+qt_nodetrade_qt_LDADD = qt/libbitcoinqt.a $(LIBBITCOIN_SERVER)
+if ENABLE_WALLET
+qt_nodetrade_qt_LDADD += $(LIBBITCOIN_UTIL) $(LIBBITCOIN_WALLET)
+endif
+if ENABLE_ZMQ
+qt_nodetrade_qt_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+endif
+qt_nodetrade_qt_LDADD += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBSAPLING) $(LIBRUSTZCASH) $(LIBZCASH_LIBS) $(LIBLEVELDB) $(LIBLEVELDB_SSE42) $(LIBMEMENV) \
+  $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(SVG_LIBS) $(CHARTS_LIBS) $(BDB_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(LIBSECP256K1) \
+  $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(BLS_LIBS)
+qt_nodetrade_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+qt_nodetrade_qt_LIBTOOLFLAGS = $(AM_LIBTOOLFLAGS) --tag CXX
+
+#locale/foo.ts -> locale/foo.qm
+QT_QM=$(QT_TS:.ts=.qm)
+
+SECONDARY: $(QT_QM)
+
+$(srcdir)/qt/nodetradestrings.cpp: $(libbitcoin_server_a_SOURCES) $(libbitcoin_wallet_a_SOURCES) $(libbitcoin_common_a_SOURCES) $(libbitcoin_zmq_a_SOURCES) $(libbitcoin_util_a_SOURCES)
+	@test -n $(XGETTEXT) || echo "xgettext is required for updating translations"
+	$(AM_V_GEN) cd $(srcdir); XGETTEXT=$(XGETTEXT) $(PYTHON) ../share/qt/extract_strings_qt.py $^
+
+translate: $(srcdir)/qt/nodetradestrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(BITCOIN_QT_BASE_CPP) qt/nodetrade.cpp $(BITCOIN_QT_WINDOWS_CPP) $(BITCOIN_QT_WALLET_CPP) $(BITCOIN_QT_H) $(BITCOIN_MM)
+	@test -n $(LUPDATE) || echo "lupdate is required for updating translations"
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts $(srcdir)/qt/locale/nodetrade_en.ts
+
+$(QT_QRC_LOCALE_CPP): $(QT_QRC_LOCALE) $(QT_QM)
+	@test -f $(RCC)
+	@cp -f $< $(@D)/temp_$(<F)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name nodetrade_locale $(@D)/temp_$(<F) | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+	@rm $(@D)/temp_$(<F)
+
+$(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS)
+	@test -f $(RCC)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name nodetrade $< | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+
+CLEAN_QT = $(nodist_qt_libbitcoinqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno qt/nodetrade/*.gcda qt/nodetrade/*.gcno qt/nodetrade/settings/*.gcda qt/nodetrade/settings/*.gcno qt/temp_nodetrade_locale.qrc
+
+CLEANFILES += $(CLEAN_QT)
+
+nodetrade_qt_clean: FORCE
+	rm -f $(CLEAN_QT) $(qt_libbitcoinqt_a_OBJECTS) $(qt_nodetrade_qt_OBJECTS) qt/nodetrade-qt$(EXEEXT) $(LIBBITCOINQT)
+
+nodetrade_qt : qt/nodetrade-qt$(EXEEXT)
+
+ui_%.h: %.ui
+	@test -f $(UIC)
+	@$(MKDIR_P) $(@D)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(UIC) -o $@ $< || (echo "Error creating $@"; false)
+
+%.moc: %.cpp
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(MOC) $(DEFAULT_INCLUDES) $(QT_INCLUDES) $(MOC_DEFS) $< | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+
+moc_%.cpp: %.h
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(MOC) $(DEFAULT_INCLUDES) $(QT_INCLUDES) $(MOC_DEFS) $< | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+
+%.qm: %.ts
+	@test -f $(LRELEASE)
+	@$(MKDIR_P) $(@D)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LRELEASE) -silent $< -qm $@
