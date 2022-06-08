@@ -252,7 +252,7 @@ UniValue listmasternodes(const JSONRPCRequest& request)
     return ret;
 }
 
-UniValue getmasternodecount (const JSONRPCRequest& request)
+UniValue getmasternodecount(const JSONRPCRequest& request)
 {
     if (request.fHelp || (request.params.size() > 0))
         throw std::runtime_error(
@@ -288,6 +288,29 @@ UniValue getmasternodecount (const JSONRPCRequest& request)
     obj.pushKV("ipv4", infoMNs.ipv4);
     obj.pushKV("ipv6", infoMNs.ipv6);
     obj.pushKV("onion", infoMNs.onion);
+
+    return obj;
+}
+
+UniValue reloadmnconfig(const JSONRPCRequest& request)
+{
+    if (request.fHelp || (request.params.size() > 0))
+        throw std::runtime_error(
+            "reloadmnconfig\n"
+            "\nGet masternode count values\n"
+
+            
+            "\nExamples:\n" +
+            HelpExampleCli("reloadmnconfig", "") + HelpExampleRpc("reloadmnconfig", ""));
+
+    UniValue obj(UniValue::VOBJ);
+    masternodeConfig.clear();
+    std::string error;
+    if (!masternodeConfig.read(error)) {
+        obj.pushKV("status", "Error reloading masternode.conf");
+    } else {
+        obj.pushKV("status", "reloaded successfully");
+    }
 
     return obj;
 }
@@ -631,7 +654,9 @@ UniValue listmasternodeconf(const JSONRPCRequest& request)
 
             "\nExamples:\n" +
             HelpExampleCli("listmasternodeconf", "") + HelpExampleRpc("listmasternodeconf", ""));
-
+    std::string error;
+    masternodeConfig.clear();
+    masternodeConfig.read(error);
     std::vector<CMasternodeConfig::CMasternodeEntry> mnEntries;
     mnEntries = masternodeConfig.getEntries();
 
@@ -1100,6 +1125,7 @@ static const CRPCCommand commands[] =
     { "masternode",         "createmasternodekey",       &createmasternodekey,       true,  {} },
     { "masternode",         "decodemasternodebroadcast", &decodemasternodebroadcast, true,  {"hexstring"} },
     { "masternode",         "getmasternodecount",        &getmasternodecount,        true,  {} },
+    { "masternode",         "reloadmnconfig",            &reloadmnconfig,            true,  {} },
     { "masternode",         "getmasternodeoutputs",      &getmasternodeoutputs,      true,  {} },
     { "masternode",         "getmasternodescores",       &getmasternodescores,       true,  {"blocks"} },
     { "masternode",         "getmasternodestatus",       &getmasternodestatus,       true,  {} },

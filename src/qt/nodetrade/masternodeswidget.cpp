@@ -90,6 +90,7 @@ MasterNodesWidget::MasterNodesWidget(NODETRADEGUI *parent) :
     setCssSubtitleScreen(ui->labelSubtitle1);
 
     /* Buttons */
+    setCssBtnPrimary(ui->pushButtonreloadmnconfig);
     setCssBtnPrimary(ui->pushButtonSave);
     setCssBtnPrimary(ui->pushButtonStartAll);
     setCssBtnPrimary(ui->pushButtonStartMissing);
@@ -112,6 +113,7 @@ MasterNodesWidget::MasterNodesWidget(NODETRADEGUI *parent) :
     setCssProperty(ui->labelEmpty, "text-empty");
 
     connect(ui->pushButtonSave, &QPushButton::clicked, this, &MasterNodesWidget::onCreateMNClicked);
+    connect(ui->pushButtonreloadmnconfig, &QPushButton::clicked, this, &MasterNodesWidget::Reloadmnconfig);
     connect(ui->pushButtonStartAll, &QPushButton::clicked, [this]() {
         onStartAllClicked(REQUEST_START_ALL);
     });
@@ -268,6 +270,21 @@ void MasterNodesWidget::onStartAllClicked(int type)
             inform(tr("Cannot perform Masternodes start"));
         }
     }
+}
+
+void MasterNodesWidget::Reloadmnconfig()
+{
+    QString inform;
+    std::string error;
+    masternodeConfig.clear();
+    if(!masternodeConfig.read(error))
+        inform = "Failed To Reload Masternode.conf";
+    else
+        inform = "Masternode.conf Reloaded Successfully.";
+    mnModel->updateMNList();
+
+    QMetaObject::invokeMethod(this, "updateModelAndInform", Qt::QueuedConnection,
+        Q_ARG(QString, inform));
 }
 
 bool MasterNodesWidget::startAll(QString& failText, bool onlyMissing)
