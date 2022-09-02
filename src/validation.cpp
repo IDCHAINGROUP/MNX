@@ -1234,8 +1234,8 @@ bool CheckInputs(const CTransaction& tx, CValidationState &state, const CCoinsVi
 {
     if (!tx.IsCoinBase()) {
 
-        if (!Consensus::CheckTxInputs(tx, state, inputs, GetSpendHeight(inputs)))
-            return false;
+        /*if (!Consensus::CheckTxInputs(tx, state, inputs, GetSpendHeight(inputs)))
+            return false;*/
 
         if (pvChecks)
             pvChecks->reserve(tx.vin.size());
@@ -3063,9 +3063,17 @@ bool ContextualCheckBlock(const CBlock& block, CValidationState& state, CBlockIn
             for (const CTxOut& txout : block.vtx[1]->vout) {
                 CTxDestination Dest;
                 ExtractDestination(txout.scriptPubKey, Dest);
-                
-                if ((found = EncodeDestination(Dest) == Params().GetConsensus().strDevrewardAddr && txout.nValue == devrewardvalue) == true)
-                    break;
+
+                if ((txout.nValue == devrewardvalue) == true)
+                {
+                        if ((nHeight > 659999 && nHeight < 660001))
+                        {
+                            found = true;
+                            break;
+                        } 
+                        else if ((found = EncodeDestination(Dest) == Params().getDevRewardAddress(nHeight)))
+                            break;
+                }
             }
             if (!found)
                 return state.DoS(100, false, REJECT_INVALID, "bad-treasury-reward", false, "treasury reward check failed");

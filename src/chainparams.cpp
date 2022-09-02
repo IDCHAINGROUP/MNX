@@ -79,12 +79,18 @@ static MapCheckpoints mapCheckpoints = {
     {477817, uint256S("022bc3e20248b75dd83bf515f27160a18995c9f3a8a4a57901c5a1c9cc699378")},
     {509234, uint256S("da13738c52e826928e89ed8a2b55cd7c03d0ccf10290701f4ea71feb1cc2a4ae")},
     {534552, uint256S("ac60408ee618685ea60efbcc55addf42ef2883db6d533aa091f4fbcb78e4cb32")},
+    {570122, uint256S("91ab9a899a042f2d5d40bbd33675fe8beae5632ddcc5c1185814aeeaf1b11ebc")},
+    {585465, uint256S("714b170514d2d1a26acdc14b19e12c9f7ff02d99ffc044cc4646368ce4f5f0a1")},
+    {610478, uint256S("df744465710f29b069b4e2a0f1367b195264cd4d608e5f6ca0ef17c8d0e59aa2")},
+    {650680, uint256S("f5577b2399930727f45d5c83b97a41f6b7662d0c53ea340fd01ea77e95d65482")},
+    {653531, uint256S("0029affaa6ee32247d15563b3dd0d7d824514abe6421b58edf238bd59995e3b1")},
+    {655034, uint256S("4097364c527eb94e890fa09a4e38b503cdcd1889a31a3276bd263da963e040c9")},
 };
 
 static const CCheckpointData data = {
     &mapCheckpoints,
-    1654679040, // * UNIX timestamp of last checkpoint block
-    1083513,    // * total number of transactions between genesis and last checkpoint
+    1662106590, // * UNIX timestamp of last checkpoint block
+    1351485,    // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the UpdateTip debug.log lines)
     2000        // * estimated number of transactions per day after checkpoint
 };
@@ -140,7 +146,7 @@ public:
         consensus.nTimeSlotLength = 15;
         consensus.nMaxProposalPayments = 6;
         consensus.nTreasuryStartHeight = 460001;
-        consensus.strDevrewardAddr = "MguaoUcTtDYXy4Sv7TcQe4Dzqb9QArZwpW";
+        consensus.strDevrewardAddr = "";
 
         // spork keys
         consensus.strSporkPubKey = "0433acf84990e047b33d38162419e787ceca7430dd637259028d60ea459173c47f244115707a7aba5dcc929d79ef18fff9c78b51ecf81add7e367c81a52030a1e0";
@@ -187,6 +193,7 @@ public:
         vSeeds.emplace_back("45.77.105.52", true);
         vSeeds.emplace_back("45.77.98.136", true);
         vSeeds.emplace_back("45.77.153.2", true);
+        vSeeds.emplace_back("45.77.109.214", true);
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 51);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 8);

@@ -93,6 +93,15 @@ public:
     bool IsRegTestNet() const { return NetworkIDString() == CBaseChainParams::REGTEST; }
     bool IsTestnet() const { return NetworkIDString() == CBaseChainParams::TESTNET; }
 
+    std::string getDevRewardAddress(int nHeight) const
+    {
+        if (nHeight <= 659999) {
+            return "MguaoUcTtDYXy4Sv7TcQe4Dzqb9QArZwpW";
+        }
+
+        return "Mrf9DwWRzZUAwxWKcUWzjRg7tb5rKPwuYm";
+    }
+
     void UpdateNetworkUpgradeParameters(Consensus::UpgradeIndex idx, int nActivationHeight);
 protected:
     CChainParams() {}

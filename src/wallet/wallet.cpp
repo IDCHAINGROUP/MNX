@@ -3401,7 +3401,7 @@ bool CWallet::CreateCoinStake(
 
             CAmount devrewardvalue = GetDevrewardValue(pindexPrev->nHeight + 1);
 
-            CTxDestination DevrewardAddress = DecodeDestination(Params().GetConsensus().strDevrewardAddr);
+            CTxDestination DevrewardAddress = DecodeDestination(Params().getDevRewardAddress(pindexPrev->nHeight + 1));
             CScript payee = GetScriptForDestination(DevrewardAddress);
 
             int ops = (int)txNew.vout.size();
