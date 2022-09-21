@@ -240,6 +240,7 @@ UniValue listmasternodes(const JSONRPCRequest& request)
         obj.pushKV("outidx", (uint64_t)oIdx);
         obj.pushKV("pubkey", EncodeDestination(mn.pubKeyMasternode.GetID()));
         obj.pushKV("status", strStatus);
+        obj.pushKV("ip", strHost);
         obj.pushKV("addr", EncodeDestination(mn.pubKeyCollateralAddress.GetID()));
         obj.pushKV("version", mn.protocolVersion);
         obj.pushKV("lastseen", (int64_t)mn.lastPing.sigTime);

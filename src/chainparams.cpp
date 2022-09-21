@@ -88,12 +88,15 @@ static MapCheckpoints mapCheckpoints = {
     {658900, uint256S("c7f7a6982476900a0562fe9681d1be72251a0c4fbd1c66fef8adb4b2a9a059f6")},
     {661540, uint256S("93cbaf708699c875ddb9d26dd5c2966f28edfdfe127c9d89f6bd703b6725243f")},
     {662193, uint256S("5bf3b56d15fc91d1938e92343f9ddddd604bd45bcf18bca17b023897f604f50a")},
+    {673105, uint256S("9f2ec34abba801ef83af216a055d24d74409846f5f23fa9a8b56a56307c45298")},
+    {681548, uint256S("5a03574641d1dbc21b3d36b4014956e8c34397d0edb6092bbc6b40a10112b989")},
+
 };
 
 static const CCheckpointData data = {
     &mapCheckpoints,
-    1662547815, // * UNIX timestamp of last checkpoint block
-    1366097,    // * total number of transactions between genesis and last checkpoint
+    1663738425, // * UNIX timestamp of last checkpoint block
+    1410358,    // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the UpdateTip debug.log lines)
     2000        // * estimated number of transactions per day after checkpoint
 };
@@ -239,8 +242,8 @@ public:
 
         genesis = CreateGenesisBlock(1454124731, 2402015, 0x1e0ffff0, 1, 250 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x0000041e482b9b9691d98eefb48473405c0b8ec31b76df3797c74a78680ef818"));
-        assert(genesis.hashMerkleRoot == uint256S("0x1b2ef6e2f28be914103a277377ae7729dcd125dfeb8bf97bd5964ba72b6dc39b"));
+        //assert(consensus.hashGenesisBlock == uint256S("0x0000041e482b9b9691d98eefb48473405c0b8ec31b76df3797c74a78680ef818"));
+        //assert(genesis.hashMerkleRoot == uint256S("0x1b2ef6e2f28be914103a277377ae7729dcd125dfeb8bf97bd5964ba72b6dc39b"));
 
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
@@ -342,8 +345,8 @@ public:
 
         genesis = CreateGenesisBlock(1454124731, 1, 0x207fffff, 1, 250 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x7445589c4c8e52b105247b13373e5ee325856aa05d53f429e59ea46b7149ae3f"));
-        assert(genesis.hashMerkleRoot == uint256S("0x1b2ef6e2f28be914103a277377ae7729dcd125dfeb8bf97bd5964ba72b6dc39b"));
+        //assert(consensus.hashGenesisBlock == uint256S("0x7445589c4c8e52b105247b13373e5ee325856aa05d53f429e59ea46b7149ae3f"));
+        //assert(genesis.hashMerkleRoot == uint256S("0x1b2ef6e2f28be914103a277377ae7729dcd125dfeb8bf97bd5964ba72b6dc39b"));
 
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = true;
