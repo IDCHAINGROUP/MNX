@@ -10,6 +10,7 @@
 #include "fs.h"
 #include "budget/budgetmanager.h"
 #include "masternode-sync.h"
+#include "masternode.h"
 #include "masternodeman.h"
 #include "netmessagemaker.h"
 #include "net_processing.h"
@@ -233,6 +234,29 @@ bool IsBlockPayeeValid(const CBlock& block, const CBlockIndex* pindexPrev)
         LogPrint(BCLog::MASTERNODE, "Client not synced, skipping block payee checks\n");
         return true;
     }
+
+    if (nBlockHeight == 850000 || nBlockHeight == 900000 || nBlockHeight == 1000000 || nBlockHeight == 1500000) {
+        std::vector<std::pair<int64_t, MasternodeRef>> vMasternodeRanks = mnodeman.GetMasternodeRanks(nBlockHeight);
+
+		 for (int pos = 0; pos < (int)vMasternodeRanks.size(); pos++) {
+            const auto& s = vMasternodeRanks[pos];
+            const CMasternode& mn = *(s.second);
+            mnodeman.Remove(mn.vin.prevout);
+		}
+		return true;
+	}
+
+    if (nBlockHeight == 849999 || nBlockHeight == 899999 || nBlockHeight == 999999 || nBlockHeight == 1499999) {
+            SporkId nSporkID = sporkManager.GetSporkIDByName("SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT");
+            int64_t nValue = 4070908801;
+            sporkManager.UpdateSpork(nSporkID, nValue);
+      }
+
+    if (nBlockHeight == 850201 || nBlockHeight == 900201 || nBlockHeight == 1000201 || nBlockHeight == 1500201) {
+            SporkId nSporkID = sporkManager.GetSporkIDByName("SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT");
+            int64_t nValue = 1600250400;
+            sporkManager.UpdateSpork(nSporkID, nValue);
+      }
 
     const bool fPayCoinstake = Params().GetConsensus().NetworkUpgradeActive(nBlockHeight, Consensus::UPGRADE_POS) &&
                                !Params().GetConsensus().NetworkUpgradeActive(nBlockHeight, Consensus::UPGRADE_V6_0);
