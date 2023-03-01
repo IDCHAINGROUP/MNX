@@ -30,6 +30,9 @@
 // keep track of the scanning errors I've seen
 std::map<uint256, int> mapSeenMasternodeScanningErrors;
 
+// cache collaterals
+std::vector<std::pair<int,CAmount>> vecCollaterals;
+
 
 int MasternodeMinPingSeconds()
 {
@@ -372,15 +375,64 @@ CAmount CMasternode::GetMNCollateral(int nHeight)
         return 15000;
     } else if (nHeight <= 900000) {
         return 20000;
-    } else if (nHeight <= 1000000) {
+    } else if (nHeight <= 920001) {
         return 30000;
-    } else if (nHeight <= 1500000) {
-        return 40000;
+    } else if (nHeight <= 1000000) {
+        return 100000;
+    } else if (nHeight <= 1150000) {
+        return 150000;
+    } else if (nHeight <= 1300000) {
+        return 200000;
+    } else if (nHeight <= 1400000) {
+        return 300000;
     } else {
-        return 80000;
+        return 400000;
     }
 
     return 0;
+}
+
+std::pair<int, CAmount> CMasternode::GetNextMasternodeCollateral(int nHeight)
+{
+    if (nHeight > 0 && nHeight <= 30000) {
+        return std::make_pair(30000 - nHeight, 12 * COIN);
+    } else if (nHeight > 30000 && nHeight <= 50000) {
+        return std::make_pair(50000 - nHeight, 30 * COIN);
+    } else if (nHeight > 50000 && nHeight <= 80000) {
+        return std::make_pair(80000 - nHeight, 100 * COIN);
+    } else if (nHeight > 80000 && nHeight <= 110000) {
+        return std::make_pair(110000 - nHeight, 250 * COIN);
+    } else if (nHeight > 110000 && nHeight <= 285000) {
+        return std::make_pair(285000 - nHeight, 15 * COIN);
+    } else if (nHeight > 285000 && nHeight <= 460000) {
+        return std::make_pair(460000 - nHeight, 50 * COIN);
+    } else if (nHeight > 460000 && nHeight <= 500000) {
+        return std::make_pair(500000 - nHeight, 200 * COIN);
+    } else if (nHeight > 500000 && nHeight <= 600000) {
+        return std::make_pair(600000 - nHeight, 300 * COIN);
+    } else if (nHeight > 600000 && nHeight <= 700000) {
+        return std::make_pair(700000 - nHeight, 3000 * COIN);
+    } else if (nHeight > 700000 && nHeight <= 710000) {
+        return std::make_pair(710000 - nHeight, 7000 * COIN);
+    } else if (nHeight > 710000 && nHeight <= 800000) {
+        return std::make_pair(800000 - nHeight, 15000 * COIN);
+    } else if (nHeight > 800000 && nHeight <= 850000) {
+        return std::make_pair(850000 - nHeight, 20000 * COIN);
+    } else if (nHeight > 850000 && nHeight <= 900000) {
+        return std::make_pair(900000 - nHeight, 30000 * COIN);
+    } else if (nHeight > 900000 && nHeight <= 920001) {
+        return std::make_pair(920001 - nHeight, 100000 * COIN);
+    } else if (nHeight > 920001 && nHeight <= 1000000) {
+        return std::make_pair(1000000 - nHeight, 150000 * COIN);
+    } else if (nHeight > 1000000 && nHeight <= 1150000) {
+        return std::make_pair(1150000 - nHeight, 200000 * COIN);
+    } else if (nHeight > 1150000 && nHeight <= 1300000) {
+        return std::make_pair(1300000 - nHeight, 300000 * COIN);
+    } else if (nHeight > 1300000 && nHeight <= 1400000) {
+        return std::make_pair(1400000 - nHeight, 400000 * COIN);
+    } else {
+        return std::make_pair(0, 400000 * COIN);
+    }
 }
 
 bool CMasternodeBroadcast::Sign(const CKey& key, const CPubKey& pubKey)

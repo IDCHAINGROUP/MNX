@@ -203,12 +203,18 @@ struct Params {
             nMNCollateral = 15000;
         } else if (nHeight <= 900000) {
             nMNCollateral = 20000;
-        } else if (nHeight <= 1000000) {
+        } else if (nHeight <= 920001) {
             nMNCollateral = 30000;
-        } else if (nHeight <= 1500000) {
-            nMNCollateral = 40000;
+        } else if (nHeight <= 1000000) {
+            nMNCollateral = 100000;
+        } else if (nHeight <= 1150000) {
+            nMNCollateral = 150000;
+        } else if (nHeight <= 1300000) {
+            nMNCollateral = 200000;
+        } else if (nHeight <= 1400000) {
+            nMNCollateral = 300000;
         } else {
-            nMNCollateral = 80000;
+            nMNCollateral = 400000;
         }
 
         return nMNCollateral * COIN;

@@ -1065,8 +1065,13 @@ bool AppInitParameterInteraction()
     if (gArgs.IsArgSet("-checklevel"))
         return UIError(strprintf(_("Error: Unsupported argument %s found. Checklevel must be level 4."), "-checklevel"));
     // Exit early if -masternode=1 and -listen=0
-    if (gArgs.GetBoolArg("-masternode", DEFAULT_MASTERNODE) && !gArgs.GetBoolArg("-listen", DEFAULT_LISTEN))
-        return UIError(strprintf(_("Error: %s must be true if %s is set."), "-listen", "-masternode"));
+    /*if (gArgs.GetBoolArg("-masternode", DEFAULT_MASTERNODE) && !gArgs.GetBoolArg("-listen", DEFAULT_LISTEN))
+        return UIError(strprintf(_("Error: %s must be true if %s is set."), "-listen", "-masternode"));*/
+
+    if (gArgs.GetBoolArg("-masternode", false) && GetListenPort() != Params().GetDefaultPort())
+        return UIError(strprintf(_("Error: Invalid port %d for running a masternode."), GetListenPort()) + "\n\n" +
+                       strprintf(_("Masternodes are required to run on port %d for %s-net"), Params().GetDefaultPort(), Params().NetworkIDString()));
+
     if (gArgs.GetBoolArg("-benchmark", false))
         UIWarning(strprintf(_("Warning: Unsupported argument %s ignored, use %s"), "-benchmark", "-debug=bench."));
 

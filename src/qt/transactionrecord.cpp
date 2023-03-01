@@ -28,8 +28,8 @@ bool TransactionRecord::decomposeCoinStake(const CWallet* wallet, const CWalletT
     }
 
     const uint256& hash = wtx.GetHash();
+    try {
     TransactionRecord sub(hash, wtx.GetTxTime(), wtx.tx->GetTotalSize());
-
     if (isminetype mine = wallet->IsMine(wtx.tx->vout[1])) {
         // Check for cold stakes.
         if (wtx.tx->HasP2CSOutputs()) {
@@ -39,8 +39,9 @@ bool TransactionRecord::decomposeCoinStake(const CWallet* wallet, const CWalletT
         } else {
             // MNX stake reward
             CTxDestination address;
-            if (!ExtractDestination(wtx.tx->vout[1].scriptPubKey, address))
+            if (!ExtractDestination(wtx.tx->vout[1].scriptPubKey, address)) {
                 return true;
+            }
 
             sub.involvesWatchAddress = mine & ISMINE_WATCH_ONLY;
             sub.type = TransactionRecord::StakeMint;
@@ -50,7 +51,7 @@ bool TransactionRecord::decomposeCoinStake(const CWallet* wallet, const CWalletT
 
         CTxDestination DevAddress;
         CTxDestination DevAddress2;
-        if (ExtractDestination(wtx.tx->vout[wtx.tx->vout.size() - 1].scriptPubKey, DevAddress) && (IsMine(*wallet, DevAddress)) && (EncodeDestination(DevAddress) == "MguaoUcTtDYXy4Sv7TcQe4Dzqb9QArZwpW" || EncodeDestination(DevAddress) == "Mrf9DwWRzZUAwxWKcUWzjRg7tb5rKPwuYm")) {
+        if (ExtractDestination(wtx.tx->vout[wtx.tx->vout.size() - 1].scriptPubKey, DevAddress) && (IsMine(*wallet, DevAddress)) && (EncodeDestination(DevAddress) == "MguaoUcTtDYXy4Sv7TcQe4Dzqb9QArZwpW" || EncodeDestination(DevAddress) == "Mrf9DwWRzZUAwxWKcUWzjRg7tb5rKPwuYm" || EncodeDestination(DevAddress) == "McnVVAyRsEhcDwWWx5esGfdmTh97n3AVsD")) {
             sub.credit = sub.credit - wtx.tx->vout[wtx.tx->vout.size() - 1].nValue;
             parts.append(sub);
             sub.involvesWatchAddress = mine & ISMINE_WATCH_ONLY;
@@ -58,7 +59,7 @@ bool TransactionRecord::decomposeCoinStake(const CWallet* wallet, const CWalletT
             sub.address = EncodeDestination(DevAddress);
             sub.credit = wtx.tx->vout[wtx.tx->vout.size() - 1].nValue;
             parts.append(sub);
-        } else if (ExtractDestination(wtx.tx->vout[wtx.tx->vout.size() - 2].scriptPubKey, DevAddress2) && (IsMine(*wallet, DevAddress2)) && (EncodeDestination(DevAddress2) == "MguaoUcTtDYXy4Sv7TcQe4Dzqb9QArZwpW" || EncodeDestination(DevAddress2) == "Mrf9DwWRzZUAwxWKcUWzjRg7tb5rKPwuYm")) {
+        } else if (ExtractDestination(wtx.tx->vout[wtx.tx->vout.size() - 2].scriptPubKey, DevAddress2) && (IsMine(*wallet, DevAddress2)) && (EncodeDestination(DevAddress2) == "MguaoUcTtDYXy4Sv7TcQe4Dzqb9QArZwpW" || EncodeDestination(DevAddress2) == "Mrf9DwWRzZUAwxWKcUWzjRg7tb5rKPwuYm" || EncodeDestination(DevAddress2) == "McnVVAyRsEhcDwWWx5esGfdmTh97n3AVsD")) {
             sub.credit = sub.credit - wtx.tx->vout[wtx.tx->vout.size() - 2].nValue;
             parts.append(sub);
             sub.involvesWatchAddress = mine & ISMINE_WATCH_ONLY;
@@ -80,13 +81,18 @@ bool TransactionRecord::decomposeCoinStake(const CWallet* wallet, const CWalletT
             sub.credit = wtx.tx->vout[nIndexMN].nValue;
             parts.append(sub);
         }
-        if (ExtractDestination(wtx.tx->vout[nIndexMN + 1].scriptPubKey, destMN) && (mine = IsMine(*wallet, destMN))) {
+        if ((nIndexMN+1) < (int)wtx.tx->vout.size() && ExtractDestination(wtx.tx->vout[nIndexMN + 1].scriptPubKey, destMN) && (mine = IsMine(*wallet, destMN))) {
             sub.involvesWatchAddress = mine & ISMINE_WATCH_ONLY;
             sub.type = TransactionRecord::MNReward;
             sub.address = EncodeDestination(destMN);
             sub.credit = wtx.tx->vout[nIndexMN + 1].nValue;
             parts.append(sub);
         }
+    }
+}
+     catch (const std::exception& e)
+    {
+        return false;
     }
 
     return true;

@@ -72,7 +72,7 @@ TopBar::TopBar(NODETRADEGUI* _mainWindow, QWidget *parent) :
     ui->containerTop->setProperty("cssClass", "container-top");
 #endif
 
-    std::initializer_list<QWidget*> lblTitles = {ui->labelTitle1, ui->labelTitle3, ui->labelTitle4, ui->labelTrans, ui->labelShield, ui->labelMasternodesTitle, ui->labelTitle8};
+    std::initializer_list<QWidget*> lblTitles = {ui->labelTitle1, ui->labelTitle3, ui->labelTitle4, ui->labelTrans, ui->labelShield, ui->labelMasternodesTitle, ui->labelTitle8, ui->labelNextMasternodesTitle, ui->labelTitle9};
     setCssProperty(lblTitles, "text-title-topbar");
     QFont font;
     font.setWeight(QFont::Light);
@@ -82,7 +82,7 @@ TopBar::TopBar(NODETRADEGUI* _mainWindow, QWidget *parent) :
     ui->widgetTopAmount->setVisible(false);
     setCssProperty({ui->labelAmountTopMnx, ui->labelAmountTopShieldedMnx}, "amount-small-topbar");
     setCssProperty({ui->labelAmountMnx}, "amount-topbar");
-    setCssProperty({ui->labelPendingMnx, ui->labelImmatureMnx, ui->labelCollateralMnx, ui->labelMasternodeCount}, "amount-small-topbar");
+    setCssProperty({ui->labelPendingMnx, ui->labelImmatureMnx, ui->labelCollateralMnx, ui->labelMasternodeCount, ui->labelNextCollateralBlocks, ui->labelNextCollateralValue}, "amount-small-topbar");
 
     // Progress Sync
     progressBar = new QProgressBar(ui->layoutSync);
@@ -657,6 +657,16 @@ void TopBar::refreshMasternodeStatus()
 
     ui->labelMasternodeCount->setText(tr("%1").arg(nMNCount));
     ui->labelMasternodesTitle->setText(tr("Masternodes%1").arg(isSynced ? "" : " (Syncing)"));
+
+    if (chainActive.Tip()) {
+        auto p = CMasternode::GetNextMasternodeCollateral(chainActive.Tip()->nHeight);
+
+        ui->widgetNextCollateral->setVisible(p.first > 0);
+        if (p.first > 0) {
+            ui->labelNextCollateralValue->setText(GUIUtil::formatBalance(p.second, nDisplayUnit));
+            ui->labelNextCollateralBlocks->setText(tr("%1 Blocks").arg(p.first));
+        }
+    }
 }
 
 void TopBar::connectUpgradeBtnAndDialogTimer(const QString& message)

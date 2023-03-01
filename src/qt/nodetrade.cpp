@@ -525,6 +525,7 @@ void BitcoinApplication::initializeResult(int retval)
         QTimer::singleShot(100, paymentServer, &PaymentServer::uiReady);
 #endif
         pollShutdownTimer->start(200);
+
     } else {
         quit(); // Exit main loop
     }

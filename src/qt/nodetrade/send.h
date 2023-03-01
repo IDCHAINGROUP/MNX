@@ -18,7 +18,7 @@
 
 #include <atomic>
 
-static const int MAX_SEND_POPUP_ENTRIES = 8;
+static const int MAX_SEND_POPUP_ENTRIES = 100;
 
 class NODETRADEGUI;
 class ClientModel;

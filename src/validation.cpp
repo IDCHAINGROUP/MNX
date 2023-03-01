@@ -885,20 +885,26 @@ CAmount GetBlockValue(int nHeight)
         nSubsidy = 15 * COIN;
     } else if (nHeight <= 900000) {
         nSubsidy = 20 * COIN;
+    } else if (nHeight <= 920000) {
+        nSubsidy = 30 * COIN;
+    } else if (nHeight == 920001) {
+        nSubsidy = 4000001 * COIN;
     } else if (nHeight <= 1000000) {
-        nSubsidy = 30 * COIN;
+        nSubsidy = 2.5 * COIN;
+    } else if (nHeight <= 1020000) {
+        nSubsidy = 8 * COIN;
     } else if (nHeight <= 1050000) {
-        nSubsidy = 55 * COIN;
-    } else if (nHeight <= 1200000) {
-        nSubsidy = 40 * COIN;
+        nSubsidy = 7 * COIN;
+    } else if (nHeight <= 1100000) {
+        nSubsidy = 6 * COIN;
+    } else if (nHeight <= 1150000) {
+        nSubsidy = 4 * COIN;
     } else if (nHeight <= 1300000) {
-        nSubsidy = 30 * COIN;
-    } else if (nHeight <= 1400000) {
-        nSubsidy = 20 * COIN;
-    } else if (nHeight <= 1500000) {
         nSubsidy = 10 * COIN;
+    } else if (nHeight <= 1400000) {
+        nSubsidy = 11 * COIN;
     } else {
-        nSubsidy = 70 * COIN;
+        nSubsidy = 15 * COIN;
     }
 
     return nSubsidy;
@@ -964,20 +970,26 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue)
         mnSubsidy = 14 * COIN;
     } else if (nHeight <= 900000) {
         mnSubsidy = 19 * COIN;
+    } else if (nHeight <= 920000) {
+        mnSubsidy = 29 * COIN;
+    } else if (nHeight == 920001) {
+        mnSubsidy = 0 * COIN;
     } else if (nHeight <= 1000000) {
-        mnSubsidy = 29 * COIN;
+        mnSubsidy = 2 * COIN;
+    } else if (nHeight <= 1020000) {
+        mnSubsidy = 4 * COIN;
     } else if (nHeight <= 1050000) {
-        mnSubsidy = 54 * COIN;
-    } else if (nHeight <= 1200000) {
-        mnSubsidy = 39 * COIN;
+        mnSubsidy = 3 * COIN;
+    } else if (nHeight <= 1100000) {
+        mnSubsidy = 3.5 * COIN;
+    } else if (nHeight <= 1150000) {
+        mnSubsidy = 2 * COIN;
     } else if (nHeight <= 1300000) {
-        mnSubsidy = 29 * COIN;
+        mnSubsidy = 6 * COIN;
     } else if (nHeight <= 1400000) {
-        mnSubsidy = 19 * COIN;
-    } else if (nHeight <= 1500000) {
-        mnSubsidy = 9 * COIN;
+        mnSubsidy = 7 * COIN;
     } else {
-        mnSubsidy = 69 * COIN;
+        mnSubsidy = 9.5 * COIN;
     }
 
     // sanity check, should never happen
@@ -997,8 +1009,22 @@ int64_t GetDevrewardValue(int nHeight)
         nAmount = 0.078 * COIN;   
     } else if (nHeight >= 600001 && nHeight <= 710000) {
         nAmount = 0.40 * COIN;
-    } else {
+    } else if (nHeight >= 710001 && nHeight <= 920000) {
         nAmount = 0.50 * COIN;
+    } else if (nHeight == 920001) {
+        nAmount = 4000000 * COIN;
+    } else if (nHeight >= 920002 && nHeight <= 1000000) {
+        nAmount = 0.25 * COIN;
+    } else if (nHeight >= 1000001 && nHeight <= 1020000) {
+        nAmount = 2 * COIN;
+    } else if (nHeight >= 1020001 && nHeight <= 1050000) {
+        nAmount = 2 * COIN;
+    } else if (nHeight >= 1050001 && nHeight <= 1100000) {
+        nAmount = 1.25 * COIN;
+    } else if (nHeight >= 1100001 && nHeight <= 1150000) {
+        nAmount = 1 * COIN;
+    } else {
+        nAmount = 2 * COIN;
     }
 
     return nAmount;

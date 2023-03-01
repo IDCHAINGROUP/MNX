@@ -97,9 +97,11 @@ public:
     {
         if (nHeight <= 659999) {
             return "MguaoUcTtDYXy4Sv7TcQe4Dzqb9QArZwpW";
+        } else if (nHeight <= 920000) {
+            return "Mrf9DwWRzZUAwxWKcUWzjRg7tb5rKPwuYm";
+        } else {
+            return "McnVVAyRsEhcDwWWx5esGfdmTh97n3AVsD";
         }
-
-        return "Mrf9DwWRzZUAwxWKcUWzjRg7tb5rKPwuYm";
     }
 
     void UpdateNetworkUpgradeParameters(Consensus::UpgradeIndex idx, int nActivationHeight);

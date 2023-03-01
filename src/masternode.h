@@ -222,6 +222,7 @@ public:
     bool IsValidNetAddr() const;
 
     static CAmount GetMNCollateral(int nHeight);
+    static std::pair<int, CAmount> GetNextMasternodeCollateral(int nHeight);
 
     /*
      * This is used only by the compatibility code for DMN, which don't share the public key (but the keyid).
